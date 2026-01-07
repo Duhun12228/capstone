@@ -1,0 +1,13 @@
+# Pedestrian Detection Node Configuration
+# Dynamic obstacle detection with stop & wait behavior
+
+# Scan parameters
+scan_angle: 20.0
+num_sectors: 8
+
+# Distance thresholds
+detect_distance: 0.35
+stop_distance: 0.25
+
+# Speed parameters
+# base_speed는 lane_detect_node에서 관리

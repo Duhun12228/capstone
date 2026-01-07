@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 
+    Lane Tracing
+    - White lane line detection and following
+    -->
+    
+    <arg name="camera_topic" default="/usb_cam/image_raw/compressed"/>
+    <arg name="show_image" default="true"/>
+    
+    <!-- Lane Detection Node (with cmd_vel publishing) -->
+    <node pkg="wego" type="lane_detect_node.py" name="lane_detect_node" output="screen">
+        <rosparam file="$(find wego)/config/lane_detect.yaml" command="load"/>
+        <param name="publish_cmd_vel" value="true"/>
+        <remap from="/usb_cam/image_raw/compressed" to="$(arg camera_topic)"/>
+    </node>
+    
+    <!-- Image Viewer -->
+    <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view" name="lane_viewer" args="/webot/lane_detect/image"/>
+    
+    <!-- Mask viewer (run manually): rqt_image_view /webot/lane_detect/mask -->
+
+</launch>

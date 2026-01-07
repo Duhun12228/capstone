@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 
+    Roundabout Navigation
+    - Lane tracing with roundabout obstacle detection
+    -->
+    
+    <arg name="camera_topic" default="/usb_cam/image_raw/compressed"/>
+    <arg name="lidar_topic" default="/scan"/>
+    <arg name="show_image" default="true"/>
+    
+    <!-- Lane Detection Node -->
+    <node pkg="wego" type="lane_detect_node.py" name="lane_detect_node" output="screen">
+        <rosparam file="$(find wego)/config/lane_detect.yaml" command="load"/>
+        <remap from="/usb_cam/image_raw/compressed" to="$(arg camera_topic)"/>
+    </node>
+    
+    <!-- Roundabout Node -->
+    <node pkg="wego" type="roundabout_node.py" name="roundabout_node" output="screen">
+        <rosparam file="$(find wego)/config/roundabout.yaml" command="load"/>
+        <remap from="/scan" to="$(arg lidar_topic)"/>
+    </node>
+    
+    <!-- Image Viewers -->
+    <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view" name="lane_viewer" args="/webot/lane_detect/image"/>
+    <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view" name="roundabout_viewer" args="/webot/roundabout/debug"/>
+
+</launch>

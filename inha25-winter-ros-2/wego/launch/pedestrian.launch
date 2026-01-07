@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 
+    Pedestrian Avoidance
+    - Lane tracing with pedestrian stop & wait
+    - Stops when pedestrian detected, resumes when clear
+    - lane_detect_node provides steering/speed
+    - pedestrian_node controls motor based on obstacle detection
+    -->
+    
+    <arg name="camera_topic" default="/usb_cam/image_raw/compressed"/>
+    <arg name="lidar_topic" default="/scan"/>
+    <arg name="show_image" default="true"/>
+    
+    <!-- Lane Detection Node (steering/speed only, pedestrian_node handles cmd_vel) -->
+    <node pkg="wego" type="lane_detect_node.py" name="lane_detect_node" output="screen">
+        <rosparam file="$(find wego)/config/lane_detect.yaml" command="load"/>
+        <param name="publish_cmd_vel" value="false"/>
+        <remap from="/usb_cam/image_raw/compressed" to="$(arg camera_topic)"/>
+    </node>
+    
+    <!-- Pedestrian Node -->
+    <node pkg="wego" type="pedestrian_node.py" name="pedestrian_node" output="screen">
+        <rosparam file="$(find wego)/config/pedestrian.yaml" command="load"/>
+        <remap from="/scan" to="$(arg lidar_topic)"/>
+    </node>
+    
+    <!-- Image Viewers -->
+    <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view" name="lane_viewer" args="/webot/lane_detect/image"/>
+    <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view" name="pedestrian_viewer" args="/webot/pedestrian/debug"/>
+
+</launch>

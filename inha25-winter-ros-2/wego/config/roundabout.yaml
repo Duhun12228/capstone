@@ -1,0 +1,11 @@
+# Roundabout Node Configuration
+# LiDAR-based obstacle detection at roundabout entry
+
+# LiDAR detection parameters
+detect_x_min: 0.3
+detect_x_max: 1.0
+obstacle_threshold: 3
+
+# Speed parameters
+# roundabout_speed는 lane_detect_node에서 관리
+steering_gain: 1.0

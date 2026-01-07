@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 
+    Obstacle Avoidance
+    - Lane tracing with gap-finding obstacle avoidance
+    -->
+    
+    <arg name="camera_topic" default="/usb_cam/image_raw/compressed"/>
+    <arg name="lidar_topic" default="/scan"/>
+    <arg name="show_image" default="true"/>
+  <arg name="racecar_version" default="racecar-v2" />
+  <arg name="run_camera" default="true"/>
+
+
+  <include file="$(find racecar)/launch/includes/$(arg racecar_version)-teleop.launch.xml">
+    <arg name="racecar_version" value="$(arg racecar_version)" />
+    <arg name="run_camera" value="$(arg run_camera)" />
+  </include>
+
+    <!-- Lane Detection Node (steering/speed만 publish, 모터 제어는 obstacle_avoid_node가 담당) -->
+    <node pkg="wego" type="dh_lanefollow.py" name="lane_detect_node" output="screen">
+        <rosparam file="$(find wego)/config/lane_detect.yaml" command="load"/>
+    </node>
+    
+    <!-- Obstacle Avoidance Node -->
+    <node pkg="wego" type="dh_obstacle.py" name="obstacle_avoid_node" output="screen">
+        <rosparam file="$(find wego)/config/obstacle_avoid.yaml" command="load"/>
+        <remap from="/scan" to="$(arg lidar_topic)"/>
+    </node>
+    
+
+</launch>

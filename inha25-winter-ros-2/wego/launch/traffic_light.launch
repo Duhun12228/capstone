@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 
+    Traffic Light Detection
+    - Lane tracing with traffic light recognition
+    - lane_detect_node provides steering/speed
+    - traffic_light_node controls motor based on light state
+    -->
+    
+    <arg name="camera_topic" default="/usb_cam/image_raw/compressed"/>
+    <arg name="show_image" default="true"/>
+    
+    <!-- Lane Detection Node (steering only, traffic_light_node handles cmd_vel) -->
+    <node pkg="wego" type="lane_detect_node.py" name="lane_detect_node" output="screen">
+        <rosparam file="$(find wego)/config/lane_detect.yaml" command="load"/>
+        <param name="publish_cmd_vel" value="false"/>
+        <remap from="/usb_cam/image_raw/compressed" to="$(arg camera_topic)"/>
+    </node>
+    
+    <!-- Traffic Light Node -->
+    <node pkg="wego" type="traffic_light_node.py" name="traffic_light_node" output="screen">
+        <rosparam file="$(find wego)/config/traffic_light.yaml" command="load"/>
+        <remap from="/usb_cam/image_raw/compressed" to="$(arg camera_topic)"/>
+    </node>
+    
+    <!-- Image Viewers -->
+    <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view" name="lane_viewer" args="/webot/lane_detect/image"/>
+    <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view" name="traffic_viewer" args="/webot/traffic_light/image"/>
+
+</launch>

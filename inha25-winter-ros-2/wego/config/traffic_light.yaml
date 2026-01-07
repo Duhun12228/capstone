@@ -1,0 +1,35 @@
+# Traffic Light Detection Node Configuration
+
+# Red HSV thresholds (two ranges for hue wrap-around)
+red_h_low1: 20
+red_h_high1: 60
+red_h_low2: 160
+red_h_high2: 180
+red_s_low: 0
+red_s_high: 60
+red_v_low: 70
+red_v_high: 180
+
+# Green HSV thresholds
+green_h_low: 130
+green_h_high: 180
+green_s_low: 0
+green_s_high: 255
+green_v_low: 150
+green_v_high: 255
+
+# Detection parameters
+min_area: 100
+circularity_thresh: 0.7
+
+# ROI settings
+roi_top: 185
+roi_bottom: 255
+roi_left: 200
+roi_right: 300
+
+# Brightness adjustment
+brightness_factor: 0.7
+
+# Speed
+# base_speed는 lane_detect_node에서 관리

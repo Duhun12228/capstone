@@ -1,0 +1,21 @@
+# Obstacle Avoidance Node Configuration
+# Gap-finding algorithm with sector-based LiDAR analysis
+
+# LiDAR scan parameters
+scan_angle: 60.0
+num_sectors: 12
+
+# Distance thresholds
+safe_distance: 1.8
+stop_distance: 0.2
+
+# Speed parameters
+# base_speed는 lane_detect_node에서 관리
+avoid_speed: 0.4
+
+# Steering parameters
+max_steering: 0.8
+steering_gain: 0.02
+
+# Hysteresis parameters
+clear_threshold: 5

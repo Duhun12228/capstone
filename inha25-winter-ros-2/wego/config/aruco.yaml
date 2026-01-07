@@ -1,0 +1,11 @@
+# ArUco Detector Node Configuration
+# ArUco marker detection with distance estimation
+
+# Marker parameters
+marker_size: 0.05          # 마커 실제 크기 (m) - 5cm
+
+# Camera calibration file path
+calibration_file: "/home/wego/catkin_ws/src/usb_cam/calibration/usb_cam.yaml"
+
+# ArUco dictionary (for reference only, changed in code)
+# Options: DICT_4X4_50, DICT_4X4_100, DICT_5X5_50, etc.

@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<launch>
+    <!-- 
+    Parking Mission
+    - Lane tracing with ArUco marker triggered parking
+    - ArUco 마커 감지 시 주차 모드로 전환
+    - 주차 완료 후 lane_detect_node 자동 종료
+    - 모든 파라미터는 yaml 파일에서 관리
+    -->
+    
+    <arg name="camera_topic" default="/usb_cam/image_raw/compressed"/>
+    <arg name="show_image" default="true"/>
+    
+    <!-- Lane Detection Node (parking_node가 모터 제어권 보유) -->
+    <node pkg="wego" type="lane_detect_node.py" name="lane_detect_node" output="screen">
+        <rosparam file="$(find wego)/config/lane_detect.yaml" command="load"/>
+        <param name="publish_cmd_vel" value="false"/>
+        <remap from="/usb_cam/image_raw/compressed" to="$(arg camera_topic)"/>
+    </node>
+    
+    <!-- ArUco Detector Node -->
+    <node pkg="wego" type="aruco_detector_node.py" name="aruco_detector_node" output="screen">
+        <rosparam file="$(find wego)/config/aruco.yaml" command="load"/>
+        <remap from="/usb_cam/image_raw/compressed" to="$(arg camera_topic)"/>
+    </node>
+    
+    <!-- Parking Node -->
+    <node pkg="wego" type="parking_node.py" name="parking_node" output="screen">
+        <rosparam file="$(find wego)/config/parking.yaml" command="load"/>
+    </node>
+    
+    <!-- Image Viewers -->
+    <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view" 
+          name="lane_viewer" args="/webot/lane_detect/image"/>
+    <node if="$(arg show_image)" pkg="rqt_image_view" type="rqt_image_view" 
+          name="aruco_viewer" args="/webot/aruco/debug"/>
+
+</launch>

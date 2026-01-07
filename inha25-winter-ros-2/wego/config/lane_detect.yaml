@@ -1,0 +1,27 @@
+# Lane Detection Node Configuration
+# HSV-based white lane detection (same as simple_lane_following.py)
+
+# HSV thresholds for WHITE lanes
+hsv_h_low: 0
+hsv_h_high: 180
+hsv_s_low: 0
+hsv_s_high: 30
+hsv_v_low: 200
+hsv_v_high: 255
+
+# ROI settings (ratio of image height)
+# 0.6 = 상단 60% 무시, 0.95 = 하단 5% 무시
+roi_top_ratio: 0.6
+roi_bottom_ratio: 0.95
+
+
+
+# Stanley Control parameters
+base_speed: 0.3
+k: 0.005
+yaw_k: 1.0
+
+# Lane detection parameters
+lane_offset: 150
+min_pixels: 500
+masked_pixel: 30

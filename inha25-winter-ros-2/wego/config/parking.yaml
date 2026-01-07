@@ -1,0 +1,20 @@
+# Parking Node Configuration
+# ArUco marker triggered parallel parking
+
+# Trigger parameters
+trigger_distance: 0.5      # 마커 이 거리 이내일 때 주차 시작 (m)
+target_marker_id: 0        # 트리거 마커 ID
+
+# Speed parameters
+speed_slow: 0.3           # 저속 전진 속도 (m/s)
+speed_reverse: -0.25       # 후진 속도 (m/s)
+steering_angle: 0.8        # 조향 각도 (rad)
+
+# Time parameters (초)
+forward_time: 1.2          # 주차 구역 지나 전진 시간
+reverse_right_time: 2.0    # 후진 우회전 시간
+reverse_left_time: 2.0     # 후진 좌회전 시간
+final_forward_time: 1.0    # 마지막 전진 직진 시간
+
+# Lane tracing in IDLE
+use_lane_in_idle: true     # IDLE 상태에서 lane_detect 값 사용
